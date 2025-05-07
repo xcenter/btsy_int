@@ -1,0 +1,42 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.5'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.btsy'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.kafka:spring-kafka'
+	runtimeOnly 'com.h2database:h2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'io.cucumber:cucumber-java:7.22.1'
+	testImplementation 'io.cucumber:cucumber-junit:7.22.1'
+	testImplementation 'io.cucumber:cucumber-spring:7.22.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.register('buildImage', Exec) {
+	dependsOn bootJar
+	commandLine 'docker', 'build', '-t', 'btsy-int:latest', '.'
+}
+
