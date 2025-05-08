@@ -14,6 +14,8 @@ public class KafkaConfigProperties {
     private String bootstrapServers;
     @Name("template.default-topic")
     private String topic;
+    @Name("template.dlq-topic")
+    private String dlqTopic;
     @Name("consumer.group-id")
     private String groupId;
 

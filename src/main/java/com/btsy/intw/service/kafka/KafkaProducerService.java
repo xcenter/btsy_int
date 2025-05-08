@@ -16,7 +16,10 @@ public class KafkaProducerService {
     }
 
     public void sendMessage(String message) {
-        System.out.println("KAFKA TOPIC " + kafkaConfigProperties.getTopic());
         kafkaTemplate.send(kafkaConfigProperties.getTopic(), message);
+    }
+
+    public void sendToDlq(String message) {
+        kafkaTemplate.send(kafkaConfigProperties.getDlqTopic(), message);
     }
 }

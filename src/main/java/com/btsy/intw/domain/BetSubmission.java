@@ -29,5 +29,5 @@ public class BetSubmission {
     @Schema(description = "Amount of money being bet")
     @Min(value = 1, message = "Bet amount must be at least 1")
     @JsonProperty
-    private double amount;
+    private Integer amount;
 }

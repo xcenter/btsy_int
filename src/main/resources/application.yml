@@ -8,3 +8,13 @@ spring:
       retries: 0
     template:
       default-topic: jackpot-bets
+      dlq-topic: jackpot-bets-dlq
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: user
+    password: pass
+    driverClassName: org.h2.Driver
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+  jpa:
+    defer-datasource-initialization: true
