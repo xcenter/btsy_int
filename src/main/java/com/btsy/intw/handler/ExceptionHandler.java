@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Component
 public class ExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(value = { RuntimeException.class })
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = {RuntimeException.class})
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
     public ResponseEntity<Object> handleException(RuntimeException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_GATEWAY);

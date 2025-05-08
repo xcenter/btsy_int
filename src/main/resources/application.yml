@@ -1,0 +1,10 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: btsy-intw
+      auto-offset-reset: earliest
+    producer:
+      retries: 0
+    template:
+      default-topic: jackpot-bets

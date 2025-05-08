@@ -1,6 +1,6 @@
 package com.btsy.intw.configuration;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -15,9 +15,9 @@ import java.util.Map;
 
 @EnableKafka
 @Configuration
+@AllArgsConstructor
 public class KafkaConfiguration {
 
-    @Getter
     private KafkaConfigProperties kafkaConfigProperties;
 
     @Bean
@@ -26,6 +26,7 @@ public class KafkaConfiguration {
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigProperties.getBootstrapServers());
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        System.out.println(config);
         return new DefaultKafkaProducerFactory<>(config);
     }
 
@@ -41,6 +42,7 @@ public class KafkaConfiguration {
         config.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaConfigProperties.getGroupId());
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        System.out.println(config);
         return new DefaultKafkaConsumerFactory<>(config);
     }
 }

@@ -8,13 +8,15 @@ import org.springframework.stereotype.Service;
 public class KafkaProducerService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private KafkaConfigProperties kafkaConfigProperties;
+    private final KafkaConfigProperties kafkaConfigProperties;
 
-    public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate) {
+    public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate, KafkaConfigProperties kafkaConfigProperties) {
         this.kafkaTemplate = kafkaTemplate;
+        this.kafkaConfigProperties = kafkaConfigProperties;
     }
 
     public void sendMessage(String message) {
+        System.out.println("KAFKA TOPIC " + kafkaConfigProperties.getTopic());
         kafkaTemplate.send(kafkaConfigProperties.getTopic(), message);
     }
 }
