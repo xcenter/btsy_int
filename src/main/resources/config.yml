@@ -1,0 +1,4 @@
+kafka:
+  bet-topic: jackpot-bets
+  kafka.bootstrap-servers: localhost:9092
+  group-id: btsy-intw

@@ -17,7 +17,7 @@ public class JackpotController {
 
     @GetMapping("/evaluateJackpot/{jackpotId}")
     public ResponseEntity<JackpotResult> evaluateJackpot(@NotEmpty @PathVariable("jackpotId") @Parameter(description = "Id of the jackpot to evaluate") final String jackpotId) {
-        return ResponseEntity.ok(new JackpotResult());
+        return ResponseEntity.ok(JackpotResult.builder().build());
     }
 
     @GetMapping("/listJackpotIds")
