@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class JackpotResult {
+public class JackpotWin {
 
     @Schema(description = "Id of the winning bet")
     @JsonProperty

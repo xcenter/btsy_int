@@ -1,6 +1,6 @@
 package com.btsy.intw.controller;
 
-import com.btsy.intw.domain.JackpotResult;
+import com.btsy.intw.domain.JackpotWin;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +15,12 @@ import java.util.List;
 @RequestMapping("/api/jackpot")
 public class JackpotController {
 
-    @GetMapping("/evaluateJackpot/{jackpotId}")
-    public ResponseEntity<JackpotResult> evaluateJackpot(@NotEmpty @PathVariable("jackpotId") @Parameter(description = "Id of the jackpot to evaluate") final String jackpotId) {
-        return ResponseEntity.ok(JackpotResult.builder().build());
+    @GetMapping("/evaluate/{jackpotId}")
+    public ResponseEntity<JackpotWin> evaluateJackpot(@NotEmpty @PathVariable("jackpotId") @Parameter(description = "Id of the jackpot to evaluate") final String jackpotId) {
+        return ResponseEntity.ok(JackpotWin.builder().build());
     }
 
-    @GetMapping("/listJackpotIds")
+    @GetMapping("/list")
     public ResponseEntity<List<String>> listJackpots() {
         return ResponseEntity.ok(List.of("123", "456", "789"));
     }

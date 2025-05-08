@@ -1,6 +1,6 @@
 package com.btsy.intw.controller;
 
-import com.btsy.intw.domain.BetSubmission;
+import com.btsy.intw.domain.Bet;
 import com.btsy.intw.service.kafka.KafkaProducerService;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
@@ -22,8 +22,8 @@ public class BetController {
         this.kafkaProducerService = kafkaProducerService;
     }
 
-    @PutMapping("/placeBet")
-    public ResponseEntity<String> placeBet(@Valid @RequestBody @Parameter(description = "Bet submission") final BetSubmission submission) {
+    @PutMapping("/place")
+    public ResponseEntity<String> placeBet(@Valid @RequestBody @Parameter(description = "Bet submission") final Bet submission) {
         kafkaProducerService.sendMessage(submission.toString());
         return ResponseEntity.ok("Bet placed successfully for user: " + submission);
     }

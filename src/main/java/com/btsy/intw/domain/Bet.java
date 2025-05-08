@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class BetSubmission {
+public class Bet {
 
     @NotBlank(message = "Bet ID cannot be blank")
     @Schema(description = "Unique identifier for the bet")
