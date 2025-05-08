@@ -20,8 +20,8 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
   springboot-app:
-    image: btsy-int:latest
-    container_name: btsy-int
+    image: btsy-intw:latest
+    container_name: btsy-intw
     build:
       context: .
       dockerfile: Dockerfile

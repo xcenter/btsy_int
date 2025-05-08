@@ -1,4 +1,4 @@
-package com.btsy.Int.cucumber;
+package com.btsy.intw.cucumber;
 
 public class RunCucumberTests {
 }

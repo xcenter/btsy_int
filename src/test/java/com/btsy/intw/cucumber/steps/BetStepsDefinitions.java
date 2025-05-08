@@ -1,4 +1,4 @@
-package com.btsy.Int.cucumber.steps;
+package com.btsy.intw.cucumber.steps;
 
 public class BetStepsDefinitions {
 }

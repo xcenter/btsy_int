@@ -1,10 +1,10 @@
-package com.btsy.Int;
+package com.btsy.intw;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class IntApplicationTests {
+class IntwApplicationTests {
 
 	@Test
 	void contextLoads() {
