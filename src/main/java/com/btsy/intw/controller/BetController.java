@@ -1,7 +1,7 @@
 package com.btsy.intw.controller;
 
 import com.btsy.intw.domain.Bet;
-import com.btsy.intw.service.kafka.KafkaProducerService;
+import com.btsy.intw.service.BetSubmissionService;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/bet")
 public class BetController {
 
-    private final KafkaProducerService kafkaProducerService;
+    private final BetSubmissionService betSubmissionService;
 
     @Autowired
-    public BetController(KafkaProducerService kafkaProducerService) {
-        this.kafkaProducerService = kafkaProducerService;
+    public BetController(BetSubmissionService betSubmissionService) {
+        this.betSubmissionService = betSubmissionService;
     }
 
     @PutMapping("/place")
-    public ResponseEntity<String> placeBet(@Valid @RequestBody @Parameter(description = "Bet submission") final Bet submission) {
-        kafkaProducerService.sendMessage(submission.toString());
-        return ResponseEntity.ok("Bet placed successfully for user: " + submission);
+    public ResponseEntity<String> placeBet(@Valid @RequestBody @Parameter(description = "Bet submission") final Bet bet) {
+        betSubmissionService.placeBet(bet);
+        return ResponseEntity.ok("Bet submitted for user: " + bet.getUserId());
     }
 
 

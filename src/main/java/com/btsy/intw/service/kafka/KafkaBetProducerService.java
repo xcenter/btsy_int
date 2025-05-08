@@ -5,21 +5,21 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class KafkaProducerService {
+public class KafkaBetProducerService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final KafkaConfigProperties kafkaConfigProperties;
 
-    public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate, KafkaConfigProperties kafkaConfigProperties) {
+    public KafkaBetProducerService(KafkaTemplate<String, String> kafkaTemplate, KafkaConfigProperties kafkaConfigProperties) {
         this.kafkaTemplate = kafkaTemplate;
         this.kafkaConfigProperties = kafkaConfigProperties;
     }
 
-    public void sendMessage(String message) {
+    public void publishBet(String message) {
         kafkaTemplate.send(kafkaConfigProperties.getTopic(), message);
     }
 
-    public void sendToDlq(String message) {
+    public void publishBetToDlq(String message) {
         kafkaTemplate.send(kafkaConfigProperties.getDlqTopic(), message);
     }
 }

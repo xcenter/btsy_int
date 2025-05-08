@@ -1,25 +1,31 @@
 package com.btsy.intw.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonDeserialize(builder = JackpotWin.JackpotWinBuilder.class)
 public class JackpotWin {
 
     @Schema(description = "Id of the winning bet")
     @JsonProperty
-    private String betId;
+    private Integer betId;
 
     @Schema(description = "Id of the winner")
     @JsonProperty
-    private String userId;
+    private Integer userId;
 
     @Schema(description = "Amount of jackpot")
     @JsonProperty
-    private double jackpotAmount;
+    private Integer jackpotAmount;
 
     @Schema(description = "Creation time of the jackpot")
     @JsonProperty
