@@ -2,14 +2,19 @@ package com.btsy.intw.repository.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "jackpot_wins")
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class JackpotWinEntity {
 
@@ -30,6 +35,8 @@ public class JackpotWinEntity {
         private Integer winAmount;
 
         @Column(name = "created_at", nullable = false, updatable = false)
+        @Temporal(TemporalType.TIMESTAMP)
+        @CreationTimestamp
         private LocalDateTime createdAt;
 
 }

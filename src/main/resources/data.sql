@@ -55,13 +55,13 @@ INSERT INTO users (id,name) VALUES
 (4,'David'),
 (5,'Eve');
 
-INSERT INTO contribution_config (function_name, fixed_rate) VALUES
-('Fixed', 50),
-('GrowingContributionRateFunction', NULL);
+INSERT INTO contribution_config (id, function_name, fixed_rate) VALUES
+(1, 'Fixed', 50),
+(2, 'GrowingContributionRateFunction', NULL);
 
-INSERT INTO win_chance_config (function_name, fixed_rate) VALUES
-('Fixed', 10),
-('GrowingWinChanceRateFunction', NULL);
+INSERT INTO win_chance_config (id, function_name, fixed_rate) VALUES
+(1, 'Fixed', 10),
+(2, 'GrowingWinChanceRateFunction', NULL);
 
 INSERT INTO jackpots (id, pool, contribution_config_id, win_config_id, created_at, min_pool, max_pool) VALUES
 (1, 1000, 1, 1, CURRENT_TIMESTAMP, 500, 2000),

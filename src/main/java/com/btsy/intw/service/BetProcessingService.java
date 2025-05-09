@@ -62,14 +62,16 @@ public class BetProcessingService {
                 logger.info("User {} won the jackpot with bet ID {}. Winning amount: {}", bet.getUserId(), bet.getBetId(), winningAmount);
             }
             jackpotRepository.save(jackpot.get());
-            betRepository.save(new BetEntity(bet.getBetId(), bet.getUserId(), bet.getJackpotId(), bet.getAmount()));
+            betRepository.save(BetEntity.builder().userId(bet.getUserId()).betAmount(bet.getAmount()).jackpotId(jackpot.get().getId()).build());
+            logger.info("Bet processed for user {}. Contribution added to jackpot pool: {}", bet.getUserId(), calculateContribution(bet.getAmount(), jackpot.get()));
+            logger.info("Current jackpot pool for ID {}: {}", jackpot.get().getId(), jackpot.get().getPool());
         } else {
             throw new IllegalArgumentException("Jackpot not found for ID: " + bet.getJackpotId());
         }
     }
 
     private Integer calculateContribution(Integer betAmount, JackpotEntity jackpot) {
-        return betAmount * contributionFunctionStrategy.calculateContribution(jackpot);
+        return betAmount * contributionFunctionStrategy.calculateContribution(jackpot) / 100;
     }
 
     private Boolean isWinningBet(JackpotEntity jackpot) {

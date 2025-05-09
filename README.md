@@ -41,3 +41,9 @@ A Spring Boot application for managing bets and jackpots.
       ```
 4. The application evaluates the win chance and logs any winnings.
 5. Check the logs or database for jackpot winnings and updated pools.
+
+## Further Improvements
+- Add acceptance and unit tests
+- Refactor BetProcessingService due to too many responsibilities
+- Modify bet contribution to use double instead of int
+- Configurable win chance, current implementation makes it too easy to win due to percentages

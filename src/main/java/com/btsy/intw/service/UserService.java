@@ -20,7 +20,7 @@ public class UserService {
 
     public List<User> listUsers() {
         return userRepository.findAll().stream()
-                .map(userEntity -> User.builder().id(userEntity.getId()).name(userEntity.getUsername()).build())
+                .map(userEntity -> User.builder().id(userEntity.getId()).name(userEntity.getName()).build())
                 .collect(Collectors.toList());
     }
 }
