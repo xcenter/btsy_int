@@ -23,13 +23,13 @@ public class Jackpot {
 
     @Schema(description = "Current pool of the jackpot")
     @JsonProperty
-    private Integer pool;
+    private Double pool;
 
-    @Schema(description = "Contribution config")
+    @Schema(description = "Contribution function")
     @JsonProperty
-    private ContributionConfig contributionConfig;
+    private String contributionFunctionName;
 
-    @Schema(description = "Win config")
+    @Schema(description = "Win function")
     @JsonProperty
-    private WinConfig winConfig;
+    private String winFunctionName;
 }

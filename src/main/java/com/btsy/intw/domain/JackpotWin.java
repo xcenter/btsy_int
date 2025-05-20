@@ -25,7 +25,7 @@ public class JackpotWin {
 
     @Schema(description = "Amount of jackpot")
     @JsonProperty
-    private Integer jackpotAmount;
+    private Double jackpotAmount;
 
     @Schema(description = "Creation time of the jackpot")
     @JsonProperty

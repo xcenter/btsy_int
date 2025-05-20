@@ -25,5 +25,5 @@ public class BetEntity {
     private Integer jackpotId;
 
     @Column(name = "bet_amount", nullable = false)
-    private Integer betAmount;
+    private Double betAmount;
 }

@@ -21,22 +21,20 @@ public class JackpotEntity {
     private Integer id;
 
     @Column(nullable = false)
-    private Integer pool;
+    private Double pool;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contribution_config_id", nullable = false)
-    private ContributionConfigEntity contributionConfig;
+    @JoinColumn(name = "contribution_function_name", nullable = false)
+    private String contributionFunctionName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "win_config_id", nullable = false)
-    private WinChanceConfigEntity winConfig;
+    @JoinColumn(name = " win_function_name", nullable = false)
+    private String winFunctionName;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "min_pool", nullable = false, updatable = false)
-    private Integer minPool;
+    private Double minPool;
 
     @Column(name = "max_pool", nullable = false, updatable = false)
-    private Integer maxPool;
+    private Double maxPool;
 }

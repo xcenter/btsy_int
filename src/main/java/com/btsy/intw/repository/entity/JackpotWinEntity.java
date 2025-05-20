@@ -32,7 +32,7 @@ public class JackpotWinEntity {
         private Integer betId;
 
         @Column(name = "win_amount", nullable = false)
-        private Integer winAmount;
+        private Double winAmount;
 
         @Column(name = "created_at", nullable = false, updatable = false)
         @Temporal(TemporalType.TIMESTAMP)

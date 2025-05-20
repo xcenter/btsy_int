@@ -3,6 +3,7 @@ package com.btsy.intw.service;
 import com.btsy.intw.domain.Bet;
 import com.btsy.intw.repository.JackpotRepository;
 import com.btsy.intw.repository.UserRepository;
+import com.btsy.intw.repository.entity.JackpotEntity;
 import com.btsy.intw.service.kafka.KafkaBetProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,10 @@ public class BetValidator {
         this.kafkaBetProducerService = kafkaBetProducerService;
     }
 
-    public void validateBet(Bet bet) {
+    public JackpotEntity validJacpotForBet(Bet bet) {
         try {
             validateUserId(bet.getUserId());
-            validateJackpotId(bet.getJackpotId());
+            return validJackpot(bet.getJackpotId());
         } catch (IllegalArgumentException e) {
             kafkaBetProducerService.publishBetToDlq(bet.toString());
             throw new IllegalArgumentException(e.getMessage());
@@ -36,9 +37,8 @@ public class BetValidator {
         }
     }
 
-    private void validateJackpotId(Integer jackpotId) {
-        if (!jackpotRepository.existsById(jackpotId)) {
-            throw new IllegalArgumentException("Jackpot not found for ID: " + jackpotId);
-        }
+    private JackpotEntity validJackpot(Integer jackpotId) {
+        return jackpotRepository.findById(jackpotId)
+                .orElseThrow(() -> new IllegalArgumentException("Jackpot not found for ID: " + jackpotId));
     }
 }

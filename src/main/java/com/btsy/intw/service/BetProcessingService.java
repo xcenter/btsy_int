@@ -7,15 +7,13 @@ import com.btsy.intw.repository.JackpotWinRepository;
 import com.btsy.intw.repository.entity.BetEntity;
 import com.btsy.intw.repository.entity.JackpotEntity;
 import com.btsy.intw.repository.entity.JackpotWinEntity;
-import com.btsy.intw.service.functions.ContributionFunctionStrategy;
-import com.btsy.intw.service.functions.WinFunctionStrategy;
+import com.btsy.intw.service.calculator.ContributionFunctionStrategy;
+import com.btsy.intw.service.calculator.WinFunctionStrategy;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class BetProcessingService {
@@ -47,34 +45,42 @@ public class BetProcessingService {
 
     @Transactional
     public void processBet(Bet bet) {
-        betValidator.validateBet(bet);
+        JackpotEntity jackpot = betValidator.validJacpotForBet(bet);
 
-        Optional<JackpotEntity> jackpot = jackpotRepository.findById(bet.getJackpotId());
+        int betId = saveBet(bet, jackpot);
+        double contribution = calculateContribution(bet.getAmount(), jackpot);
+        updateJackpotPool(jackpot, jackpot.getPool() + contribution);
 
-        if (jackpot.isPresent()) {
-            jackpot.get().setPool(jackpot.get().getPool() + calculateContribution(bet.getAmount(), jackpot.get()));
-
-            if(isWinningBet(jackpot.get())) {
-                Integer winningAmount = jackpot.get().getPool();
-                JackpotWinEntity win = JackpotWinEntity.builder().betId(bet.getBetId()).jackpotId(jackpot.get().getId()).winAmount(winningAmount).userId(bet.getUserId()).build();
-                jackpotWinRepository.save(win);
-                jackpot.get().setPool(jackpot.get().getMinPool());
-                logger.info("User {} won the jackpot with bet ID {}. Winning amount: {}", bet.getUserId(), bet.getBetId(), winningAmount);
-            }
-            jackpotRepository.save(jackpot.get());
-            betRepository.save(BetEntity.builder().userId(bet.getUserId()).betAmount(bet.getAmount()).jackpotId(jackpot.get().getId()).build());
-            logger.info("Bet processed for user {}. Contribution added to jackpot pool: {}", bet.getUserId(), calculateContribution(bet.getAmount(), jackpot.get()));
-            logger.info("Current jackpot pool for ID {}: {}", jackpot.get().getId(), jackpot.get().getPool());
-        } else {
-            throw new IllegalArgumentException("Jackpot not found for ID: " + bet.getJackpotId());
+        if (winFunctionStrategy.isJackpotWin(jackpot)) {
+            handleJackpotWin(bet, jackpot);
         }
+        jackpotRepository.save(jackpot);
+        logger.info("Bet with id: {} processed for user {}. Contribution added to jackpot pool: {}", betId, bet.getUserId(), contribution);
     }
 
-    private Integer calculateContribution(Integer betAmount, JackpotEntity jackpot) {
-        return betAmount * contributionFunctionStrategy.calculateContribution(jackpot) / 100;
+    private Integer saveBet(Bet bet, JackpotEntity jackpot) {
+        return betRepository.save(BetEntity.builder().userId(bet.getUserId()).betAmount(bet.getAmount()).jackpotId(jackpot.getId()).build()).getId();
     }
 
-    private Boolean isWinningBet(JackpotEntity jackpot) {
-        return Math.random() * 100 < winFunctionStrategy.calculateWinChance(jackpot);
+    private void handleJackpotWin(Bet bet, JackpotEntity jackpot) {
+        Double winningAmount = jackpot.getPool();
+        JackpotWinEntity win = JackpotWinEntity.builder()
+                .betId(bet.getBetId())
+                .jackpotId(jackpot.getId())
+                .winAmount(winningAmount)
+                .userId(bet.getUserId())
+                .build();
+        jackpotWinRepository.save(win);
+        updateJackpotPool(jackpot, jackpot.getMinPool());
+        logger.info("User {} won the jackpot with bet ID {}. Winning amount: {}", bet.getUserId(), bet.getBetId(), winningAmount);
+    }
+
+    private void updateJackpotPool(JackpotEntity jackpot, double jackpot1) {
+        jackpot.setPool(jackpot1);
+        logger.info("Current jackpot pool for ID {}: {}", jackpot.getId(), jackpot.getPool());
+    }
+
+    private Double calculateContribution(Double betAmount, JackpotEntity jackpot) {
+        return contributionFunctionStrategy.calculateContribution(jackpot, betAmount);
     }
 }

@@ -14,7 +14,18 @@ spring:
     username: user
     password: pass
     driverClassName: org.h2.Driver
-    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
+application:
+  contribution:
+    linear:
+      minimum-contribution: 0.001
+      maximum-contribution: 0.5
+    fixed:
+      contribution: 0.2
+  win-chance:
+    linear:
+      minimum-win-chance: 0.00001
+    fixed:
+      chance: 0.0001
